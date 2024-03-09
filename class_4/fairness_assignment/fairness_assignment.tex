@@ -1,0 +1,161 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{float}
+\usepackage{authblk}
+\usepackage{algorithm,algpseudocode}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    urlcolor=blue,    % This will set the color of URLs
+    linkcolor=red,    % optional: choose some color to internal links
+    citecolor=green,  % optional: choose some color to citation links
+}
+\usepackage{caption}
+\usepackage[dvipsnames]{xcolor}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{10pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.5} % Default value: 1
+
+\title{Enhancing Fairness in AI Decision-Making Systems at BluePermanente}
+\author[1]{Alex Lavaee}
+\affil[1]{EquiTech Corp.}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+% Notes:
+% risk program is expensive 
+% In practice:
+% 97th percentile and up:
+% Automatically identified for enrollment in the program.
+% 55th percentile and up:
+% Referred to a physician.
+% Train a ML model
+% to predict the healthcare cost at year T
+% based on information at the previous year (T-1)
+% Which information in the previous year?
+
+% 1. Demographic (e.g., age, gender but NO race)
+% 2. Comorbidity (i.e., illnesses)
+% 3. Healthcare cost
+% 4. Biomarker/medication (e.g., blood test results)
+
+% protected outcome (costs can be biased)
+% sum of illnesses could be less biased
+% take percentiles of that
+
+
+As a technical consulting firm specializing in the fintech and insurtech sectors, we understand the critical importance of fairness in AI decision-making systems. The case of Jerry vs. BluePermanente highlights significant concerns regarding potential biases within your risk-prediction algorithm which aims to predict a higher risk score for patients with greater health care needs. Our recommendations aim to address these issues by enhancing the fairness and transparency of your AI systems. We believe that by implementing these measures, BluePermanente can not only improve patient trust but also ensure compliance with regulatory standards and ethical principles.
+
+\section{Data Collection}
+
+The first step in creating a model that reduces bias and maximizes fairness is ensuring the dataset used for training the risk-prediction model is diverse and representative of the entire population. Include underrepresented groups in the training data to improve the model's accuracy and fairness for these groups. Address any existing gaps in the dataset related to socio-economic factors that might correlate with race, affecting health care needs and costs.\\
+
+It is also important to understand the practical implications or reality of the situation where many groups do not have satisfactory representation in off the shelf datasets due to historical racism. However, it is important to acknowledge and contribute to the betterment of existing datasets by enlisting more inclusive data collection strategies for the future.
+
+\section{Bias Evaluation and Detection Measures}
+
+Before creating a risk-prediction algorithm we must introduce methods to evaluate the performance of statistical models. We suggest employing standard statistical measures of fairness, or group fairness criteria.
+
+\subsection{Group Fairness}
+
+Since we are trying to (indirectly) predict a risk score by predicting an insurance cost for an insurance provider, we can represent the true insurance cost we have in our dataset with the continuous variable $Y$. We can then represent known characteristics as $X$. A summary of $X$ is shown in Table \ref{table:1}. A subset of $X$ includes certain characteristics that should be considered while evaluating the fairness of machine learning models. Examples of such characteristics include but are not limited to: gender, race, and age. We will refer to these characteristics as ``sensitive characteristics," and denote one of them by $A$. Finally, we denote the predictions of our model by $R$.
+
+\begin{table}[H]
+    \small
+    \centering
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Category}     & \textbf{Description}                                             \\
+        \midrule
+        Comorbidities         & Indicators for specific illnesses at time $T-1$                  \\
+        Demographics          & Basic demographic information                                    \\
+        Costs                 & Costs claimed from the patients' insurance payer over time $T-1$ \\
+        Biomarkers/Medication & Results from various tests and biomarkers at time $T-1$          \\
+        \bottomrule
+    \end{tabular}
+    \caption{Categorization of Features Available for Risk-Prediction Model}
+    \label{table:1}
+\end{table}
+
+\subsubsection{Independence}
+
+For a model to satisfy independence the prediction rate of our model should be equal for people belonging to different subgroups in $A$ or in other words, $(R, A)$ should satisfy statistical independence.
+
+\begin{align*}
+    P(R=r\ |\ A=a)=P(R=r\ |\ A=b)\quad \forall r\in R\quad \forall a,b \in A
+\end{align*}
+
+Typically we should set a reasonable threshold for this metric using a predefined slack $\epsilon$, where $\epsilon > 0$. Intuitively, this tells us that there might be very minimal variation in the likelihood of the model predicting a given value from a protected characteristic:
+
+\begin{align*}
+    P(R=r\ |\ A=a)\geq P(R=r\ |\ A=b)-\epsilon \quad \forall r\in R\quad \forall a,b\in A
+\end{align*}
+
+\textbf{However, we argue that the independence metric does NOT apply to this scenario since we want our model to be sensitive to changes in race, gender, and age since they play an important role in representing the medical conditions of individuals.}
+
+\subsubsection{Separation}
+
+For a model to satisfy separation we require the models' predictions $R$ to be statistically independent of $A$ given $Y$:
+
+\begin{align*}
+    P(R=r\ |\ Y=q,A=a)=P(R=r\ |\ Y=q,A=b)\quad \forall r\in R\quad q\in Y\quad \forall a,b\in A
+\end{align*}
+
+Intuitively, this means that the evaluation performance of the model is not affected for different target values $Y$ (in our case cost) across the different subgroups for a sensitive characteristic $A$.\\
+
+\textbf{We believe the separation metric adequately captures the desire to have a well-performant model on different sensitive characteristics because it ensures the performance of the model is consistent across subgroups of a sensitive characteristic.}
+
+\subsubsection{Sufficiency}
+
+For a model to satisfy sufficiency we require the true values $Y$ to be statistically independent of $A$ given the models predictions $R$:
+
+\begin{align*}
+    P(Y=q\ |\ R=r,A=a)=P(Y=q\ |\ R=r,A=b)\quad \forall q\in Y\quad r\in R\quad \forall a,b\in A
+\end{align*}
+
+Intuitively this is the opposite of separation. When the model predicts a value $r$ give a characteristic $a$, it should be as confident as when the model predicts a value $r$ give a characteristic $b$.\\
+
+\textbf{We believe the sufficiency metric adequately captures the desire to have a model where the confidence does not change when it predicts a value across subgroups of a sensitive characteristic.}
+
+\section{Model Development}
+
+% \subsection{Stakeholder Engagement and Feedback}
+
+% Engage with stakeholders, including patients from diverse backgrounds, healthcare providers, and regulatory bodies, to gather feedback on the system's decisions and perceived fairness. Use this feedback to make informed adjustments to the model and its deployment strategy.
+
+% \subsection{Regulatory Compliance and Ethical Guidelines}
+
+% Ensure the system complies with existing regulatory requirements regarding fairness and non-discrimination. Adhere to ethical guidelines set forth by relevant professional organizations in healthcare and AI.
+
+\subsection{Fairness-aware Model Training}
+
+Implement fairness-aware machine learning techniques during the model training phase. Techniques such as re-weighting training instances, optimizing for a fairness metric directly, or using adversarial learning can help reduce bias. One approach is to modify the loss function to penalize predictions that result in unfair outcomes.
+
+\section{Model Deployment}
+
+\subsection{Regular Monitoring and Updating}
+
+Implement a continuous monitoring system to regularly assess the fairness and performance of the algorithm. Update the model as necessary to adapt to changes in population demographics and health care practices.
+
+\section{Conclusion}
+
+The fairness of AI decision-making systems, especially in critical sectors like healthcare, is paramount. By taking proactive steps to ensure fairness, transparency, and accountability, BluePermanente can lead by example in the responsible use of AI. Implementing the recommended measures will not only address the concerns raised in the case of Jerry vs. BluePermanente but also enhance the overall equity and effectiveness of your healthcare services.
+
+\section{Sources}
+\begin{itemize}
+    \item \href{https://arxiv.org/abs/2010.04053}{Fairness in Machine Learning: A Survey}
+    \item \href{https://en.wikipedia.org/wiki/Fairness_(machine_learning)}{Fairness in Machine Learning}
+    \item \href{https://arxiv.org/abs/2103.10510}{Hidden Technical Debts for Fair Machine Learning in Financial Services}
+    \item \href{https://www.fairmlbook.org/classification.html}{Fairness and Machine Learning}
+\end{itemize}
+
+
+\end{document}
