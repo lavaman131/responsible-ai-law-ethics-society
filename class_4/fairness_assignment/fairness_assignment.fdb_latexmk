@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1710016270 "/Users/alilavaee/Documents/classes/DS482/responsible-ai-law-ethics-society/class_4/fairness_assignment/fairness_assignment.tex" "fairness_assignment.pdf" "fairness_assignment" 1710016270 0
-  "/Users/alilavaee/Documents/classes/DS482/responsible-ai-law-ethics-society/class_4/fairness_assignment/fairness_assignment.tex" 1710016270 9403 8601c82f96a2873a9a3f5618e0d543ce ""
+["pdflatex"] 1710021588 "/Users/alilavaee/Documents/classes/DS482/responsible-ai-law-ethics-society/class_4/fairness_assignment/fairness_assignment.tex" "fairness_assignment.pdf" "fairness_assignment" 1710021588 0
+  "/Users/alilavaee/Documents/classes/DS482/responsible-ai-law-ethics-society/class_4/fairness_assignment/fairness_assignment.tex" 1710021588 9347 e09a31baabf9671d7d151fe8e2ecdc91 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1136768653 1536 02c06700a42be0f5a28664c7273f82e7 ""
@@ -107,9 +107,9 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1686945488 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1686945434 7883454 a047fc7c1a8177c3a9d3f9c3941cae75 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "fairness_assignment.aux" 1710016270 2494 252439622ebd95b7b670cee1a5cf1a93 "pdflatex"
-  "fairness_assignment.out" 1710016270 1826 bfa25deeb9f22674f8dca4946cc9013f "pdflatex"
-  "fairness_assignment.tex" 1710016270 9403 8601c82f96a2873a9a3f5618e0d543ce ""
+  "fairness_assignment.aux" 1710021588 2494 a19aed563ea589d5ab487c10270be434 "pdflatex"
+  "fairness_assignment.out" 1710021588 1826 bfa25deeb9f22674f8dca4946cc9013f "pdflatex"
+  "fairness_assignment.tex" 1710021588 9347 e09a31baabf9671d7d151fe8e2ecdc91 ""
   (generated)
   "fairness_assignment.aux"
   "fairness_assignment.log"

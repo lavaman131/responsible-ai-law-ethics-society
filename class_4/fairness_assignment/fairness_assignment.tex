@@ -93,7 +93,7 @@ For a model to satisfy independence the prediction rate of our model should be e
     P(R=r\ |\ A=a)=P(R=r\ |\ A=b)\quad \forall r\in R\quad \forall a,b \in A
 \end{align*}
 
-Typically we should set a reasonable threshold for this metric using a predefined slack $\epsilon$, where $\epsilon > 0$. Intuitively, this tells us that there might be very minimal variation in the likelihood of the model predicting a given value from a protected characteristic:
+Typically we should set a reasonable threshold for this metric using a predefined slack $\epsilon$, where $\epsilon > 0$. Intuitively, this tells us that sensitive characteristics should not be good predictors of $Y$:
 
 \begin{align*}
     P(R=r\ |\ A=a)\geq P(R=r\ |\ A=b)-\epsilon \quad \forall r\in R\quad \forall a,b\in A
@@ -121,7 +121,7 @@ For a model to satisfy sufficiency we require the true values $Y$ to be statisti
     P(Y=q\ |\ R=r,A=a)=P(Y=q\ |\ R=r,A=b)\quad \forall q\in Y\quad r\in R\quad \forall a,b\in A
 \end{align*}
 
-Intuitively this is the opposite of separation. When the model predicts a value $r$ give a characteristic $a$, it should be as confident as when the model predicts a value $r$ give a characteristic $b$.\\
+Intuitively this is the opposite of separation. If the model predicts a value $r$ given a characteristic $a$, it should be as confident as when the model predicts the same value $r$ given a characteristic $b$.\\
 
 \textbf{We believe the sufficiency metric adequately captures the desire to have a model where the confidence does not change when it predicts a value across subgroups of a sensitive characteristic.}
 
